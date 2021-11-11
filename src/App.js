@@ -63,12 +63,8 @@ class App extends Component {
   checkboxClickHandler = (event) => {
     const id = event.target.name;
 
-    console.log(id);
-    console.log(this.state.todos);
     const data = this.state.todos.find((todo) => todo.id === id);
-    console.log(data);
-    //data.completed = event.target.checked;
-
+    data.completed = event.target.checked;
     this.setState({ ...this.state.todos, data });
   };
 
