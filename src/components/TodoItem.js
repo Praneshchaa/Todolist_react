@@ -3,21 +3,28 @@ import "../scss/_todoitem.scss";
 
 export default class TodoItem extends Component {
   render() {
-    const { id, title, startDate } = this.props.todo;
+    let { id, title, startDate, completed } = this.props.todo;
 
     return (
       <div className="itemsedit">
         <div>
-          <input type="checkbox" />
+          <input
+            name={id}
+            type="checkbox"
+            defaultChecked={completed}
+            onChange={this.props.checkboxClickHandler}
+          />
           {title}
         </div>
-        {<span className="itemdate">{startDate}</span>}
-        <button
-          onClick={this.props.delTodo.bind(this, id)}
-          className="btnStyle"
-        >
-          x
-        </button>
+        <div>
+          <span className="itemdate">{startDate}</span>
+          <button
+            onClick={this.props.delTodo.bind(this, id)}
+            className="btnStyle"
+          >
+            x
+          </button>
+        </div>
       </div>
     );
   }

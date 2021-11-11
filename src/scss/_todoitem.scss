@@ -5,7 +5,7 @@
   margin-bottom: 12px;
   justify-content: space-between;
   font-family: sans-serif;
-  font-size: 25px;
+  font-size: 20px;
   text-align: left;
 
   & .btnStyle {
@@ -16,6 +16,12 @@
     border-radius: 25%;
     cursor: pointer;
   }
+}
+
+.itemdate {
+  font-size: 15px;
+  color: grey;
+  margin-right: 20px;
 }
 
 @media (max-width: 700px) {

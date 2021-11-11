@@ -15,6 +15,10 @@ class AddTodo extends Component {
 
   onSubmit = (e) => {
     e.preventDefault();
+    if (this.state.title === "" || this.state.date === "") {
+      alert("All the fields are mandatory!");
+      return;
+    }
     this.props.addTodo(this.state.title, this.state.date);
     this.setState({ title: "", date: "" });
   };

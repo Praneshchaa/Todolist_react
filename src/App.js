@@ -17,20 +17,94 @@ class App extends Component {
         id: uuidv4(),
         title: "Buy groceries for next week",
         completed: false,
+        startDate: "2021-12-8",
       },
 
       {
         id: uuidv4(),
         title: "Renew car insurance",
         completed: false,
+        startDate: "2021-12-9",
       },
 
       {
         id: uuidv4(),
         title: "Sign up for online course",
-        completed: false,
+        completed: true,
+        startDate: "2021-12-10",
       },
     ],
+
+    filteredTodos: [
+      {
+        id: uuidv4(),
+        title: "Buy groceries for next week",
+        completed: false,
+        startDate: "2021-12-8",
+      },
+
+      {
+        id: uuidv4(),
+        title: "Renew car insurance",
+        completed: false,
+        startDate: "2021-12-9",
+      },
+
+      {
+        id: uuidv4(),
+        title: "Sign up for online course",
+        completed: true,
+        startDate: "2021-12-10",
+      },
+    ],
+  };
+
+  //tick
+  checkboxClickHandler = (event) => {
+    const id = event.target.name;
+
+    console.log(id);
+    console.log(this.state.todos);
+    const data = this.state.todos.find((todo) => todo.id === id);
+    console.log(data);
+    //data.completed = event.target.checked;
+
+    this.setState({ ...this.state.todos, data });
+  };
+
+  //sort
+  sortChangeHandler = (event) => {
+    const sortBy = event.target.value;
+    const compareDateAsc = (todosa, todosb) => {
+      const date1 = new Date(todosa.startDate).getTime();
+      const date2 = new Date(todosb.startDate).getTime();
+      if (date1 > date2) return 1;
+      else if (date1 < date2) return -1;
+      else return 0;
+    };
+
+    const compareDateDesc = (todosa, todosb) => {
+      const date1 = new Date(todosa.startDate).getTime();
+      const date2 = new Date(todosb.startDate).getTime();
+      if (date1 < date2) return 1;
+      else if (date1 > date2) return -1;
+      else return 0;
+    };
+    const todosList = this.state.filteredTodos;
+    todosList.sort(sortBy === "Asc" ? compareDateAsc : compareDateDesc);
+    this.setState({ filteredTodos: todosList });
+  };
+
+  //filter
+  filterChangeHandler = (event) => {
+    const filteredTodos = this.state.todos.filter((todo) =>
+      event.target.value === "Done"
+        ? todo.completed
+        : event.target.value === "Undone"
+        ? !todo.completed
+        : todo
+    );
+    this.setState({ filteredTodos });
   };
 
   //Add Todo
@@ -39,14 +113,19 @@ class App extends Component {
       id: uuidv4(),
       title,
       startDate: startDt,
+      completed: false,
     };
-    this.setState({ todos: [...this.state.todos, newTodo] });
+    this.setState({
+      todos: [...this.state.todos, newTodo],
+      filteredTodos: [...this.state.todos, newTodo],
+    });
   };
 
   //delete
   delTodo = (id) => {
     this.setState({
       todos: [...this.state.todos.filter((todo) => todo.id !== id)],
+      filteredTodos: [...this.state.todos.filter((todo) => todo.id !== id)],
     });
   };
 
@@ -56,11 +135,15 @@ class App extends Component {
         <Header />
         <AddTodo addTodo={this.addTodo} />
         <div className="filter-main">
-          <Sort />
-          <SortTwo />
+          <Sort filterChangeHandler={this.filterChangeHandler} />
+          <SortTwo sortChangeHandler={this.sortChangeHandler} />
         </div>
         <div className="container">
-          <Todos todos={this.state.todos} delTodo={this.delTodo} />
+          <Todos
+            todos={this.state.filteredTodos}
+            delTodo={this.delTodo}
+            checkboxClickHandler={this.checkboxClickHandler}
+          />
         </div>
       </div>
     );
