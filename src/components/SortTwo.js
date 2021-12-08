@@ -7,9 +7,9 @@ class Sort extends Component {
       <div className="dropdown">
         <p className="filter-text"> Sort </p>
 
-        <select>
-          <option>Asc</option>
-          <option>Desc</option>
+        <select onChange={this.props.sortChangeHandler}>
+          <option value="Asc">Asc</option>
+          <option value="Desc">Desc</option>
         </select>
       </div>
     );
